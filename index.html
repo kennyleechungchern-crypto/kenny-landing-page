@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ===== 基本 SEO ===== -->
+  <title>宗臻的高效语录 · 高效生活,是永远选择自己</title>
+  <meta name="description" content="高效生活陪跑者 Kenny 李宗臻。每周在 Instagram 持续输出『高效语录』。">
+
+  <!-- ===== Open Graph (微信 / IG bio / 朋友圈分享卡) ===== -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="宗臻的高效语录">
+  <meta property="og:description" content="高效生活,是永远选择自己。每周持续更新,不打扰。">
+  <meta property="og:image" content="og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- ===== Twitter / X 分享卡 ===== -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="宗臻的高效语录">
+  <meta name="twitter:description" content="高效生活,是永远选择自己。">
+  <meta name="twitter:image" content="og.png">
+
+  <!-- ===== Favicon (inline SVG,无需额外文件) ===== -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0a'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%23F5C518'/%3E%3C/svg%3E">
+
+  <!-- ===== 字体 + Tailwind ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --gold: #F5C518;
+      --ink: #0a0a0a;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #ffffff;
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .font-display {
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    .gold { color: var(--gold); }
+    .bg-gold { background-color: var(--gold); }
+    .text-ink { color: var(--ink); }
+    .bg-ink { background-color: var(--ink); }
+    .border-ink { border-color: var(--ink); }
+    .tag { letter-spacing: 0.18em; }
+
+    .cta-btn {
+      background: var(--gold);
+      color: var(--ink);
+      transition: transform .15s ease, box-shadow .15s ease;
+      box-shadow: 0 2px 0 var(--ink);
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 var(--ink);
+    }
+    .cta-btn-light {
+      background: var(--gold);
+      color: var(--ink);
+      transition: transform .15s ease, box-shadow .15s ease;
+      box-shadow: 0 2px 0 rgba(255,255,255,.3);
+    }
+    .cta-btn-light:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 0 rgba(255,255,255,.4);
+    }
+
+    /* Hero 全屏照片 */
+    .hero {
+      min-height: 100vh;
+      background-color: var(--ink);
+      background-image:
+        linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.92) 88%, rgba(0,0,0,1) 100%),
+        url('hero.jpg');
+      background-size: cover;
+      background-position: center 25%;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+    /* Hero 顶部小标识 */
+    .hero-tag-bar {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      right: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .gold-dot {
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    /* 金句卡 */
+    .quote-card {
+      aspect-ratio: 4 / 5;
+      background: var(--ink);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .quote-card::after {
+      content: '';
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 10px;
+      height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+    .quote-watermark {
+      position: absolute;
+      bottom: 14px;
+      right: 18px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.35);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ====================================================
+     编辑指南:文案改动只需要找下面的 [TAG] 注释
+     用法:跟我说 "改 [HERO_HEADLINE]" 或 "换第 2 条金句"
+     我会自动定位到对应 TAG 更新内容
+
+     文件清单(同一文件夹):
+     - index.html  这个文件
+     - hero.jpg    你的人像照片(放进来,hero 会自动用)
+     - og.png      分享卡封面(已生成)
+     ==================================================== -->
+
+
+<!-- ========== HERO ========== -->
+<section class="hero text-white flex flex-col justify-end px-6 md:px-12 py-16">
+
+  <!-- 顶部:品牌标签 + 金色信号点 -->
+  <div class="hero-tag-bar text-xs md:text-sm tag uppercase text-neutral-300">
+    <span>宗臻的高效语录</span>
+    <span class="gold-dot"></span>
+  </div>
+
+  <div class="max-w-3xl mx-auto w-full pb-12 md:pb-20">
+
+    <!-- [HERO_GREETING] -->
+    <p class="text-base md:text-lg text-neutral-300 mb-3">嗨,我是 Kenny 李宗臻。</p>
+
+    <!-- [HERO_HEADLINE] -->
+    <h1 class="font-display text-5xl md:text-7xl mb-6">
+      高效生活,<br>
+      是<span class="gold">永远选择自己</span>。
+    </h1>
+
+    <!-- [HERO_BIO] -->
+    <p class="text-lg md:text-xl text-neutral-200 mb-10 leading-relaxed">
+      高效生活陪跑者 · 在 Instagram 持续输出『高效语录』
+    </p>
+
+    <!-- [HERO_CTA] -->
+    <a href="https://instagram.com/kennylee_cc"
+       class="cta-btn-light inline-block px-8 py-4 font-bold text-lg rounded-md w-fit">
+      关注我的 Instagram →
+    </a>
+
+    <!-- [HERO_CTA_SUB] -->
+    <p class="text-sm text-neutral-400 mt-3">每周持续更新,不打扰。</p>
+
+  </div>
+</section>
+
+
+<!-- ========== 金句墙 ========== -->
+<section class="px-6 md:px-12 max-w-5xl mx-auto py-20 md:py-28">
+
+  <!-- [QUOTES_LABEL] -->
+  <p class="tag text-xs md:text-sm text-neutral-500 mb-3 uppercase">// 最近的几条</p>
+
+  <!-- [QUOTES_TITLE] -->
+  <h2 class="font-display text-3xl md:text-5xl mb-12">先尝尝味道。</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+
+    <!-- [QUOTE_1] -->
+    <div class="quote-card flex items-center justify-center p-8 md:p-12">
+      <p class="font-display text-3xl md:text-4xl leading-tight text-center">
+        一段好的关系,<br>
+        <span class="gold">不该期待回报</span>。
+      </p>
+      <span class="quote-watermark">宗臻的高效语录</span>
+    </div>
+
+    <!-- [QUOTE_2] -->
+    <div class="quote-card flex items-center justify-center p-8 md:p-12">
+      <p class="font-display text-3xl md:text-4xl leading-tight text-center">
+        没有人<br>
+        <span class="gold">会来</span>。
+      </p>
+      <span class="quote-watermark">宗臻的高效语录</span>
+    </div>
+
+    <!-- [QUOTE_3] -->
+    <div class="quote-card flex items-center justify-center p-8 md:p-12">
+      <p class="font-display text-3xl md:text-4xl leading-tight text-center">
+        什么都不做,<br>
+        <span class="gold">把自己重养一遍</span>。
+      </p>
+      <span class="quote-watermark">宗臻的高效语录</span>
+    </div>
+
+    <!-- [QUOTE_4] -->
+    <div class="quote-card flex items-center justify-center p-8 md:p-12">
+      <p class="font-display text-3xl md:text-4xl leading-tight text-center">
+        距离,<br>
+        <span class="gold">产生美</span>。
+      </p>
+      <span class="quote-watermark">宗臻的高效语录</span>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ========== 我为什么做这件事 ========== -->
+<section class="px-6 md:px-12 max-w-3xl mx-auto py-20 md:py-28">
+
+  <!-- [STORY_LABEL] -->
+  <p class="tag text-xs md:text-sm text-neutral-500 mb-3 uppercase">// 我为什么做这件事</p>
+
+  <!-- [STORY_TITLE] -->
+  <h2 class="font-display text-3xl md:text-5xl mb-10">
+    把每一次内耗,<br>
+    都压成<span class="gold">一句话</span>。
+  </h2>
+
+  <!-- [STORY_BODY] -->
+  <div class="space-y-5 text-lg md:text-xl leading-relaxed text-neutral-800">
+    <p>很多人努力了一辈子,却一直在追别人的目标。</p>
+    <p>我也是。直到我开始把每一次内耗,都压成一句话——<strong class="text-ink">「不期待回报」「距离产生美」「没有人会来」</strong>。</p>
+    <p>这些金句,是我先写给自己的。后来发现,原来很多人也在等这一句。</p>
+    <p>所以我每周在 Instagram 上分享。如果你也在 <strong class="text-ink">重新选择自己</strong>,我们一起练。</p>
+  </div>
+</section>
+
+
+<!-- ========== 多平台入口 ========== -->
+<section class="px-6 md:px-12 max-w-3xl mx-auto py-16 border-t border-neutral-200">
+
+  <!-- [PLATFORMS_LABEL] -->
+  <p class="tag text-xs md:text-sm text-neutral-500 mb-6 uppercase">// 也在这些地方</p>
+
+  <!-- [PLATFORM_LINKS] — 顺序就是优先级,IG 永远第一 -->
+  <div class="flex flex-wrap gap-3">
+    <a href="https://instagram.com/kennylee_cc"
+       class="px-5 py-2 border-2 border-ink rounded-full text-sm font-medium hover:bg-ink hover:text-white transition">
+      Instagram
+    </a>
+    <a href="https://www.threads.net/@kennylee_cc"
+       class="px-5 py-2 border border-neutral-300 rounded-full text-sm text-neutral-600 hover:border-ink hover:text-ink transition">
+      Threads
+    </a>
+    <a href="https://xhslink.com/m/1efIy6QzKjx"
+       class="px-5 py-2 border border-neutral-300 rounded-full text-sm text-neutral-600 hover:border-ink hover:text-ink transition">
+      小红书
+    </a>
+  </div>
+</section>
+
+
+<!-- ========== 结尾 CTA ========== -->
+<section class="bg-ink text-white px-6 md:px-12 py-24 md:py-32 mt-16">
+  <div class="max-w-3xl mx-auto">
+
+    <!-- [CTA_HEADLINE] -->
+    <h2 class="font-display text-4xl md:text-6xl mb-10">
+      准备好<br>
+      <span class="gold">永远选择你自己</span>了吗?
+    </h2>
+
+    <!-- [CTA_BUTTON] -->
+    <a href="https://instagram.com/kennylee_cc"
+       class="cta-btn inline-block px-8 py-4 font-bold text-lg rounded-md">
+      在 Instagram 一起练 →
+    </a>
+
+    <!-- [CTA_SUB] -->
+    <p class="text-sm text-neutral-500 mt-4">每周持续更新,不打扰。</p>
+
+  </div>
+</section>
+
+
+<!-- ========== Footer ========== -->
+<footer class="bg-ink px-6 md:px-12 py-8 text-center text-xs text-neutral-500">
+  <!-- [FOOTER] -->
+  <p>© Kenny 李宗臻 · <span class="gold">宗臻的高效语录</span></p>
+</footer>
+
+</body>
+</html>
