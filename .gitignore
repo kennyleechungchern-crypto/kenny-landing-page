@@ -1,0 +1,15 @@
+# macOS system files
+.DS_Store
+
+# Editor folders
+.vscode/
+.idea/
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+
+# Original source files (not part of the site)
+1779447348855.JPG
