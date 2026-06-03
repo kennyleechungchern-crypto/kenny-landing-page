@@ -8,7 +8,7 @@
   <title>宗臻的高效语录 · 高效生活,是永远选择自己</title>
   <meta name="description" content="高效生活陪跑者 Kenny 李宗臻。每周在 Instagram 持续输出『高效语录』。">
 
-  <!-- ===== Open Graph (微信 / IG bio / 朋友圈分享卡) ===== -->
+  <!-- ===== Open Graph ===== -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="宗臻的高效语录">
   <meta property="og:description" content="高效生活,是永远选择自己。每周持续更新,不打扰。">
@@ -22,7 +22,7 @@
   <meta name="twitter:description" content="高效生活,是永远选择自己。">
   <meta name="twitter:image" content="og.png">
 
-  <!-- ===== Favicon (inline SVG,无需额外文件) ===== -->
+  <!-- ===== Favicon ===== -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0a'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%23F5C518'/%3E%3C/svg%3E">
 
   <!-- ===== 字体 + Tailwind ===== -->
@@ -66,6 +66,10 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 0 var(--ink);
     }
+    .cta-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
     .cta-btn-light {
       background: var(--gold);
       color: var(--ink);
@@ -89,7 +93,6 @@
       background-repeat: no-repeat;
       position: relative;
     }
-    /* Hero 顶部小标识 */
     .hero-tag-bar {
       position: absolute;
       top: 24px;
@@ -131,6 +134,12 @@
       letter-spacing: 0.1em;
       color: rgba(255,255,255,0.35);
     }
+
+    /* Demo 区:输出卡片不强制 4:5(避免太高) */
+    #demo-output {
+      aspect-ratio: auto;
+      min-height: 280px;
+    }
   </style>
 </head>
 <body>
@@ -141,16 +150,17 @@
      我会自动定位到对应 TAG 更新内容
 
      文件清单(同一文件夹):
-     - index.html  这个文件
-     - hero.jpg    你的人像照片(放进来,hero 会自动用)
-     - og.png      分享卡封面(已生成)
+     - index.html          这个文件
+     - hero.jpg            你的人像照片
+     - og.png              分享卡封面
+     - .gitignore          告诉 Git 别提交哪些文件
+     - functions/api/generate.js   AI 金句生成的后端代码
      ==================================================== -->
 
 
 <!-- ========== HERO ========== -->
 <section class="hero text-white flex flex-col justify-end px-6 md:px-12 py-16">
 
-  <!-- 顶部:品牌标签 + 金色信号点 -->
   <div class="hero-tag-bar text-xs md:text-sm tag uppercase text-neutral-300">
     <span>宗臻的高效语录</span>
     <span class="gold-dot"></span>
@@ -236,6 +246,111 @@
 </section>
 
 
+<!-- ========== Live Demo: AI 生成金句 ========== -->
+<section id="demo" class="bg-neutral-50 px-6 md:px-12 py-20 md:py-28 border-y border-neutral-200">
+  <div class="max-w-3xl mx-auto">
+
+    <!-- [DEMO_LABEL] -->
+    <p class="tag text-xs md:text-sm text-neutral-500 mb-3 uppercase">// 你来一题</p>
+
+    <!-- [DEMO_TITLE] -->
+    <h2 class="font-display text-3xl md:text-5xl mb-4">
+      告诉我你<span class="gold">卡在哪</span>。
+    </h2>
+
+    <!-- [DEMO_SUBTITLE] -->
+    <p class="text-lg text-neutral-600 mb-10">
+      Claude 会用我的风格,现场给你一条金句。
+    </p>
+
+    <!-- 输入框 -->
+    <div class="flex gap-2 mb-3">
+      <input
+        id="demo-input"
+        type="text"
+        maxlength="40"
+        placeholder="比如:拖延 / 内耗 / 选择"
+        class="flex-1 px-5 py-3 border-2 border-neutral-200 rounded-md focus:border-ink outline-none text-lg bg-white"
+      />
+      <button
+        id="demo-btn"
+        class="cta-btn px-6 py-3 font-bold rounded-md whitespace-nowrap"
+      >
+        生成 →
+      </button>
+    </div>
+
+    <!-- 预设主题 -->
+    <div class="flex flex-wrap gap-2 items-center mb-10">
+      <span class="text-xs text-neutral-500 mr-1">快速试:</span>
+      <button class="demo-preset px-3 py-1 text-sm bg-white border border-neutral-300 rounded-full hover:border-ink transition" data-topic="拖延">拖延</button>
+      <button class="demo-preset px-3 py-1 text-sm bg-white border border-neutral-300 rounded-full hover:border-ink transition" data-topic="内耗">内耗</button>
+      <button class="demo-preset px-3 py-1 text-sm bg-white border border-neutral-300 rounded-full hover:border-ink transition" data-topic="选择">选择</button>
+      <button class="demo-preset px-3 py-1 text-sm bg-white border border-neutral-300 rounded-full hover:border-ink transition" data-topic="关系">关系</button>
+    </div>
+
+    <!-- 输出卡片 -->
+    <div id="demo-output" class="quote-card flex items-center justify-center p-8 md:p-12">
+      <p id="demo-text" class="font-display text-2xl md:text-3xl leading-tight text-center text-neutral-500">
+        输入一个主题,看看我会说什么。
+      </p>
+      <span class="quote-watermark">宗臻的高效语录 · AI</span>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  (function() {
+    const input = document.getElementById('demo-input');
+    const btn = document.getElementById('demo-btn');
+    const text = document.getElementById('demo-text');
+    const presets = document.querySelectorAll('.demo-preset');
+
+    async function generate(topic) {
+      if (!topic || !topic.trim()) return;
+      btn.disabled = true;
+      btn.textContent = '想想…';
+      text.textContent = '…';
+      text.classList.add('text-neutral-500');
+      text.classList.remove('text-white');
+
+      try {
+        const res = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topic: topic.trim() })
+        });
+        const data = await res.json();
+        if (data.quote) {
+          text.textContent = data.quote;
+          text.classList.remove('text-neutral-500');
+          text.classList.add('text-white');
+        } else {
+          text.textContent = data.error || '出错了,再试一次。';
+        }
+      } catch (e) {
+        text.textContent = '网络错了,再试一次。';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '生成 →';
+      }
+    }
+
+    btn.addEventListener('click', () => generate(input.value));
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') generate(input.value);
+    });
+    presets.forEach(p => {
+      p.addEventListener('click', () => {
+        input.value = p.dataset.topic;
+        generate(p.dataset.topic);
+      });
+    });
+  })();
+</script>
+
+
 <!-- ========== 我为什么做这件事 ========== -->
 <section class="px-6 md:px-12 max-w-3xl mx-auto py-20 md:py-28">
 
@@ -264,7 +379,7 @@
   <!-- [PLATFORMS_LABEL] -->
   <p class="tag text-xs md:text-sm text-neutral-500 mb-6 uppercase">// 也在这些地方</p>
 
-  <!-- [PLATFORM_LINKS] — 顺序就是优先级,IG 永远第一 -->
+  <!-- [PLATFORM_LINKS] -->
   <div class="flex flex-wrap gap-3">
     <a href="https://instagram.com/kennylee_cc"
        class="px-5 py-2 border-2 border-ink rounded-full text-sm font-medium hover:bg-ink hover:text-white transition">
